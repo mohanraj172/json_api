@@ -36,7 +36,17 @@ async function postData(){
         },
         body: JSON.stringify(userData)
     })
-
 }
+
+async function putData(){
+    const url = await fetch('http://localhost:3000/users',{
+        method: 'PUT',
+        headers: {
+            'content-Type' : 'Application/json'
+        },
+        body: JSON.stringify()
+    })
+}
+putData()
 
 
