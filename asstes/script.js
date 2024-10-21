@@ -3,72 +3,106 @@ const ID = document.getElementById('id');
 const myName = document.getElementById('name');
 const Username = document.getElementById('username');
 const submitBtn = document.getElementById('submitBtn');
-const Updatabtn = document.getElementById('updateBtn');
+const Updatebtn = document.getElementById('updateBtn');
 
-const addRow = (id,completed,title) => {
 
+const addRow = (id,name,username) => {
     tbody.innerHTML+= 
     `<tr>
     <td>${id}</td>
-    <td>${completed}</td>
-    <td>${title}</td>
-    <td><button onclick="editUser(${id},${completed},${title})"class="btn btn-primary">EDIT</button>
+    <td>${name}</td>
+    <td>${username}</td>
+    <td><button class="btn btn-primary" onclick="handleEdit(${id},'${name}','${username}')">Edit</button>
     <button class="btn btn-danger" onclick="handleDelete(${id})">Delete</button></td>
     </tr>
     `
 }
-async function getData(){
-    const url = await fetch('http://localhost:3000/users')
-    const response = await url.json();
-    response.map((datas)=>{
-        addRow(datas.id,datas.name,datas.username);
-
-    })
-}
-async function postData(){
+const  getData = async()=>{
+    try{
+        const url = await fetch('http://localhost:3000/users')
+        const response = await url.json();
+        response.map((datas)=>{
+            addRow(datas.id,datas.name,datas.username);
     
+        })
+
+    }
+    catch(error){
+        console.log('error');
+
+    }
+}
+submitBtn.addEventListener('click',()=>{
     const userData = {
         id:`${ID.value}`,
         name: `${myName.value}`,
         username: `${Username.value}`
     }
+    postData(userData)
+})
 
-    const url = await fetch('http://localhost:3000/users',{
-        method: 'POST',
-        headers: {
-            'Content-Type' : 'Application/json'
-        },
-        body: JSON.stringify(userData)
-    })
+const  postData = async(userData)=>{      
+    try{
+        const url = await fetch('http://localhost:3000/users',{
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'Application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+    }
+    catch(error){
+        console.log('error');
+
+    }
 }
- function editUser(id,name,username){
-    alert(hello)
-        userId.value =id;
-        useremail.value= name;
-       userName.value=username;
-       submitBtn.style.display='none'
-       Updatabtn.style.display='block'
-  }
+// const handleEdit = (id,data,username) => { 
+//             console.log("click edit button");
+//               uid = id;
+//               useremail.value = data;
+//               userdata.value = username;
+//               submitBtn.style .display = 'none'
+//               Updatebtn.style.display = 'block'
 
-// const editUser ={
-//     id :`${ID}`,
-//     name :`${emailname.value}`,
-//     username :`${username.value}`
-// }
-// putData(editUser)
-// console.log(editUser);
+//               const editedUser = {
+//                 id: `${uid}`,
+//                 name : `${useremail.value}`,
+//                 role : `${userdata.value}`
+//             }
+//             console.log(editedUser)
+//             handleJsonEdit(editedUser)
+//         }
 
-// async function putData(){
-//     const url = await fetch('http://localhost:3000/users${Id}',{
-//         method: 'PUT',
-//         headers: {
-//             'content-Type' : 'Application/json'
-//         },
-//         body: JSON.stringify()
-//     })
-// }
-async function handleDelete(id){
-    const url = await fetch(`http://localhost:3000/users/${id}`,{
-        method: 'DELETE'
-    })
+//          Updatebtn.addEventListener('click', (e) => {
+//            e.preventDefault()
+//             const editedUser = {
+//                 id: `${uid}`,
+//                 name : `${useremail.value}`,
+//                 role : `${userdata.value}`
+//            }
+//             console.log(editedUser)
+//            handleJsonEdit(editedUser)
+//          })
+        
+
+
+//  async function putData(){
+//      const url = await fetch(`http://localhost:3000/users/${Id}`,{
+//          method: 'PUT',
+//          headers: {
+//              'content-Type' : 'Application/json'
+//          },
+//          body: JSON.stringify(userData)
+//      })
+//  }
+const handleDelete = async(id)=>{
+    try{
+        const url = await fetch(`http://localhost:3000/users/${id}`,{
+            method: 'DELETE'
+        })
+    }
+    catch(error){
+        console.log('error');
+
+    }
 }
