@@ -22,5 +22,6 @@ input,button{
     text-align: center;
 }
 #container{
-    gap: 10%;
+    gap: 5%;
+    padding: 10px;
 }
