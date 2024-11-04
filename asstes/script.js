@@ -5,25 +5,20 @@ const Username = document.getElementById('username');
 const submitBtn = document.getElementById('submitBtn');
 const Updatebtn = document.getElementById('updateBtn');
 
-
-const addRow = (id,name,username) => {
-    tbody.innerHTML+= 
-    `<tr>
-    <td>${id}</td>
-    <td>${name}</td>
-    <td>${username}</td>
-    <td><button class="btn btn-primary" onclick="handleEdit(${id},'${name}','${username}')">Edit</button>
-    <button class="btn btn-danger" onclick="handleDelete(${id})">Delete</button></td>
-    </tr>
-    `
-}
 const  getData = async()=>{
     try{
         const url = await fetch('http://localhost:3000/users')
         const response = await url.json();
         response.map((datas)=>{
-            addRow(datas.id,datas.name,datas.username);
-    
+            tbody.innerHTML+= 
+            `<tr>
+            <td>${datas.id}</td>
+            <td>${datas.name}</td>
+            <td>${datas.username}</td>
+            <td><button class="btn btn-primary" onclick="handleEdit(${datas.id},'${datas.name}','${datas.username}')">Edit</button>
+            <button class="btn btn-danger" onclick="handleDelete(${datas.id})">Delete</button></td>
+            </tr>
+            `
         })
 
     }
@@ -56,45 +51,39 @@ const  postData = async(userData)=>{
 
     }
 }
-// const handleEdit = (id,data,username) => { 
-//             console.log("click edit button");
-//               uid = id;
-//               useremail.value = data;
-//               userdata.value = username;
-//               submitBtn.style .display = 'none'
-//               Updatebtn.style.display = 'block'
+  const handleEdit = (id,data,username) => { 
+    alert('click the edit btn');
+             ID.value = id;
+             myName.value = data;
+             Username.value = username;
+             submitBtn.style .display = 'none'
+             Updatebtn.style.display = 'block'
+  }
 
-//               const editedUser = {
-//                 id: `${uid}`,
-//                 name : `${useremail.value}`,
-//                 role : `${userdata.value}`
-//             }
-//             console.log(editedUser)
-//             handleJsonEdit(editedUser)
-//         }
+  Updatebtn.addEventListener('click',(e)=>{
+    e.preventDefault()
+    const editedUser = {
+        id: `${ID.value}`,
+        data : `${myName.value}`,
+        username : `${Username.value}`
+      }
+      console.log(editedUser)
+      putData(editedUser)
+      ID.value = ''
+      myName.value = ''
+      Username.value =''
 
-//          Updatebtn.addEventListener('click', (e) => {
-//            e.preventDefault()
-//             const editedUser = {
-//                 id: `${uid}`,
-//                 name : `${useremail.value}`,
-//                 role : `${userdata.value}`
-//            }
-//             console.log(editedUser)
-//            handleJsonEdit(editedUser)
-//          })
+  })
         
-
-
-//  async function putData(){
-//      const url = await fetch(`http://localhost:3000/users/${Id}`,{
-//          method: 'PUT',
-//          headers: {
-//              'content-Type' : 'Application/json'
-//          },
-//          body: JSON.stringify(userData)
-//      })
-//  }
+const putData = async(user) =>{
+         const url = await fetch(`http://localhost:3000/users/${ID}`,{
+            method: 'PUT',
+            headers: {
+                'content-Type' : 'Application/json'
+            },
+            body: JSON.stringify(user)
+        })
+    }
 const handleDelete = async(id)=>{
     try{
         const url = await fetch(`http://localhost:3000/users/${id}`,{
@@ -103,6 +92,5 @@ const handleDelete = async(id)=>{
     }
     catch(error){
         console.log('error');
-
     }
 }
