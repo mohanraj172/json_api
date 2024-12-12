@@ -12,11 +12,11 @@
     padding: 20px;
     background-color: bisque;
     border-radius: 20px;
-}
+}   
 input,button{
     padding: 10px;
     border-radius: 10px;
-   border: none;
+    border: none;
 }
 .heading{
     text-align: center;
